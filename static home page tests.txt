@@ -1,0 +1,276 @@
+package IntroToUnitTest;
+
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
+
+import java.awt.*;
+
+import static org.testng.Assert.*;
+public class StaticHomePageTest {
+
+
+
+
+    WebDriver driver;
+
+
+    @BeforeTest
+    public void setUp() {
+        driver = new ChromeDriver();
+    }
+
+
+    // 1.Open the browser and website
+    // 2. Meta Data form website (URL, Head)
+    // 3. Navigate method
+    // 4. Normal element html-event
+    // 5. Close browser
+
+
+    /**
+     * Test Case: 1 = Open the Website and verify the Home page contents
+     * Step: 1 = Open Browser and enter website name
+     * Step: 2 = verify the website url and title name
+     * Step: 3 = Verify the html body with id as a name;
+     */
+
+    @Test
+    public void openWebpage() throws InterruptedException {
+        driver.get("https://websitesdemos-4baf7.web.app/");
+       driver.navigate().to("http://google.com");
+        driver.navigate().refresh();//refresh the page
+        Thread.sleep(2000);
+        //driver.close // close the current page/tab
+        //driver.quit();
+    }
+
+
+
+
+
+    /**
+     * Test Case 2: Verify the landing page with image and button
+     * Step 1 = locate an image and verify the image locator
+     * Step 2 = Verify the home page welcome text
+     * Step 3 = verify the button and upon click Read More Section
+     *
+     */
+
+    @Test
+    public void validateLandingPage(){
+        boolean logo = driver.findElement(By.xpath("//i[@class='fas fa-book-open']")).isDisplayed();
+//        System.out.println(logo);
+        assertEquals(logo, true);
+        String actualText = driver.findElement(By.xpath("//h1[@class='logo']")).getText();
+        String expectedText="EdgeLedger";
+        assertEquals(actualText, expectedText);
+        boolean link = driver.findElement(By.linkText("Read More")).isDisplayed();
+        assertEquals(link, true);
+        String buttonActualText = driver.findElement(By.linkText("Read More")).getText();
+        String expectedButtonText = "Read More";
+        assertEquals(buttonActualText, expectedButtonText);
+
+        WebElement clickFun = driver.findElement(By.linkText("Read More"));
+        try{
+            clickFun.click();
+            String url = driver.getCurrentUrl();
+            System.out.println(url);
+            assertEquals(url,"https://websitesdemos-4baf7.web.app/#about");
+        }catch (WebDriverException e){
+            System.out.println("is not clickable");
+        }
+    }
+    //TaskCase 3: Verify - Home, About, Cases, Blod, Contact on WebPage Nav
+    // Step1: Verify Home Link on its presents and its clicking
+    // Step2: Verify About Link on its presents and its clicking
+    // Step3: Verify Cases Link on its presents and its clicking
+    //Step4: Verify Blod Link on its presents and its clicking
+    //Step5: Verify Contact Link on its presents and its clicking
+    @Test
+    public void validateHomeLink(){
+        boolean homePage = driver.findElement(By.xpath("//a[@href='#home']")).isDisplayed();
+        assertEquals(homePage, true);
+        WebElement homeLink = driver.findElement(By.linkText("Home"));
+        try{
+            homeLink.click();
+            String homeLinkUrl = driver.getCurrentUrl();
+            assertEquals(homeLinkUrl, "https://websitesdemos-4baf7.web.app/#home");
+        }catch (WebDriverException e){
+            System.out.println("no clickable!");
+        }
+    }
+
+
+    @Test
+    public void validateAboutLink(){
+        boolean aboutPage = driver.findElement(By.xpath("//a[@href='#about']")).isDisplayed();
+        assertEquals(aboutPage, true);
+        WebElement aboutLink = driver.findElement(By.linkText("About"));
+        try{
+            aboutLink.click();
+            String aboutLinkUrl = driver.getCurrentUrl();
+            assertEquals(aboutLinkUrl, "https://websitesdemos-4baf7.web.app/#about");
+
+        }catch (WebDriverException e){
+            System.out.println("no clickable!");
+        }
+    }
+
+    @Test
+    public void validateCasesLink(){
+        boolean casesPage = driver.findElement(By.xpath("//a[@href='#cases']")).isDisplayed();
+        assertEquals(casesPage, true);
+        WebElement casesLink = driver.findElement(By.linkText("Cases"));
+        try{
+            casesLink.click();
+            String casesLinkUrl = driver.getCurrentUrl();
+            assertEquals(casesLinkUrl, "https://websitesdemos-4baf7.web.app/#cases");
+        }catch (WebDriverException e){
+            System.out.println("no clickable!");
+        }
+    }
+
+    @Test
+    public void validateBlodLink(){
+        boolean blodPage = driver.findElement(By.xpath("//a[@href='#blog']")).isDisplayed();
+        assertEquals(blodPage, true);
+        WebElement blodLink = driver.findElement(By.linkText("Blod"));
+        try{
+            blodLink.click();
+            String blodLinkUrl = driver.getCurrentUrl();
+            assertEquals(blodLinkUrl, "https://websitesdemos-4baf7.web.app/#blog");
+        }catch (WebDriverException e){
+            System.out.println("no clickable!");
+        }
+    }
+
+
+    @Test
+    public void validateContactLink(){
+        boolean contactPage = driver.findElement(By.xpath("//a[@href='#contact']")).isDisplayed();
+        assertEquals(contactPage, true);
+        WebElement contactLink = driver.findElement(By.linkText("Contact"));
+        try{
+            contactLink.click();
+            String contactLinkUrl = driver.getCurrentUrl();
+            assertEquals(contactLinkUrl, "https://websitesdemos-4baf7.web.app/#contact");
+        }catch (WebDriverException e){
+            System.out.println("no clickable!");
+        }
+    }
+
+
+    //Task4: Verify Home Page Main Text on its presents and spelling
+    //Step1: Verify the Text - 'The is The Limit'
+    //Step2: Verify the Text - 'We provide world class financial assistance'
+    @Test
+    public  void testMainText(){
+        String mainText = driver.findElement(By.xpath("//*[contains(text(),'The Sky Is The Limit')]")).getText();
+        assertEquals(mainText, "The Sky Is The Limit");
+        System.out.println(mainText);
+        boolean textAvaliability = driver.findElement(By.xpath("//*[contains(text(),'The Sky Is The Limit')]")).isDisplayed();
+        assertEquals(textAvaliability, true);
+    }
+
+    @AfterTest
+    public void testCleanUp(){
+        try{
+            Thread.sleep(100);
+        }catch (InterruptedException e){
+            System.out.println(e.getMessage());
+        }
+        driver.quit();
+    }
+
+
+    /**
+     * Task 5:
+     * Verify 'about' webPage icons and its main text and subtext
+     * Step1: verify Investment Banking Icon and its main and sub text
+     * Step2: verify Portfolio Manager Icon and its main and sub text
+     * Step3: verify Tax & Custodial Icon and its main and sub text
+     */
+
+    @Test
+    public void verifyAboutTextAndText(){
+        boolean investmentBankingIcon = driver.findElement(By.cssSelector(".fas.fa-university.fa-2x")).isDisplayed();
+        assertEquals(investmentBankingIcon, true);
+        String investmentBankingIconText = driver.findElement(By.xpath("//*[contains(text(),'Investment Banking')]")).getText();
+        String expectedMainText = "Investment Banking";
+        assertEquals(investmentBankingIconText, expectedMainText);
+        String expectedSubText="Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil, eveniet.";
+        String actualSubText = driver.findElement(By.xpath("//*[@id='about']/div/div[1]/div/p")).getText();
+        assertEquals(actualSubText,expectedSubText);
+
+        boolean portfolioManagerIcon = driver.findElement(By.cssSelector(".fas.fa-book-reader.fa-2x")).isDisplayed();
+        assertEquals(portfolioManagerIcon, true);
+        String portfolioMainText = driver.findElement(By.xpath("//*[contains(text(), 'Portfolio Manager')]")).getText();
+        String expectedPortfolioText = "Portfolio Manager";
+        assertEquals(portfolioMainText, expectedPortfolioText);
+        String portfolioSubText = driver.findElement(By.xpath("//*[@id='about']/div/div[2]/div/p")).getText();
+        String expectedPortSubText = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil, eveniet.";
+        assertEquals(portfolioMainText,expectedPortfolioText);
+
+        boolean taxAndCustodialIcon = driver.findElement(By.cssSelector(".fas.fa-pencil-alt.fa-2x")).isDisplayed();
+        assertEquals(taxAndCustodialIcon,true);
+        String taxAndCustodialMainText = driver.findElement(By.xpath("//*[contains(text(),'Tax & Custodial')]")).getText();
+        String expectedTaxAndCustodialMainText = "Tax & Custodial";
+        assertEquals(taxAndCustodialMainText,expectedTaxAndCustodialMainText);
+        String taxtAndCustodialSubText = driver.findElement(By.xpath("//*[@id='about']/div/div[3]/div/p")).getText();
+        String expectedTaxAndCustodialSubText = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil, eveniet.";
+        assertEquals(taxtAndCustodialSubText,expectedTaxAndCustodialSubText);
+
+
+    }
+
+    /**
+     * Task Case 6:
+     * Verify case webpage and all its content
+     * Step1: Verify Main Text and SubText on its presence and right spelling
+     * Step: Verify Images on its presence only
+     */
+
+    @Test
+    public void verifyCasesTextAndImages(){
+        String casesMainText = driver.findElement(By.xpath("//*[contains(text(),'Business Cases')]")).getText();
+        String expectedCasesMain = "Business Cases";
+        assertEquals(casesMainText, expectedCasesMain);
+        boolean caseImage = driver.findElement(By.xpath("//img[contains(@src,'/images/cases/cases1.jpg')]")).isDisplayed();
+        assertEquals(caseImage,true);
+
+    }
+
+    /**
+     * Task Case 7:
+     * Verify and Validate contact's input boxes: Enter Name, Enter Email, Enter Phone, and send button, and Image
+     * Task1: Verify all input boxes: name, email, phone, button, images on its presence
+     * Task2: Validate all input boxes by typing data and get that data back to test case to match that data with expected result
+     */
+
+    @Test
+    public void verifyAndValidateContactsInputBoxes() throws InterruptedException {
+        boolean inputNameIsDisplayed = driver.findElement(By.id("name")).isDisplayed();
+        assertEquals(inputNameIsDisplayed, true);
+        WebElement nameInput = driver.findElement(By.id("name"));
+        nameInput.sendKeys("Hello Messfin!");
+        WebElement emailInput = driver.findElement(By.id("email"));
+        emailInput.sendKeys("Here is your email!");
+        WebElement phoneInput = driver.findElement(By.id("phone"));
+        phoneInput.sendKeys("2322-3232-322");
+        WebElement submitButton = driver.findElement(By.cssSelector("#submit"));
+        submitButton.click();
+
+        Thread.sleep(3000);
+
+
+     
+
+    }
+}
